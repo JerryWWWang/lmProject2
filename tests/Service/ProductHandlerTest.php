@@ -55,6 +55,15 @@ class ProductHandlerTest extends TestCase
         ],
     ];
 
+    private $productHandler;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+
+        $this->productHandler = new ProductHandler();
+    }
+
     public function testGetTotalPrice()
     {
         $totalPrice = 0;
@@ -64,5 +73,42 @@ class ProductHandlerTest extends TestCase
         }
 
         $this->assertEquals(143, $totalPrice);
+    }
+
+    public function testGetTotalPriceQuickly()
+    {
+        $totalPrice = $this->productHandler->getTotalPriceQuickly($this->products);
+
+        $this->assertEquals(143, $totalPrice);
+    }
+
+    public function testGetSortDessertProducts()
+    {
+        $dessertProducts = $this->productHandler->getSortDessertProducts($this->products);
+
+        $this->assertEquals([
+            [
+                'id' => 5,
+                'name' => 'New York Cheese Cake',
+                'type' => 'Dessert',
+                'price' => 40,
+                'create_at' => '2021-04-19 14:38:00',
+            ],
+            [
+                'id' => 4,
+                'name' => 'Cup cake',
+                'type' => 'Dessert',
+                'price' => 35,
+                'create_at' => '2021-04-18 08:45:00',
+            ]], $dessertProducts);
+    }
+
+    public function testTransformCreateDate()
+    {
+        $lastProduct = array_pop($this->products);
+        $createAt = $this->productHandler->transformCreateDate($lastProduct['create_at']);
+        echo $createAt;
+
+        $this->assertEquals(1617535380, $createAt);
     }
 }

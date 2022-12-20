@@ -3,7 +3,7 @@ namespace App\App;
 
 use App\Util\HttpRequest;
 class Demo {
-    const URL = "http://some-api.com/user_info";
+    const URL = "http://localhost:9095/launch/system/nologin/user_info";
     private $_logger;
     private $_req;
     function __construct($logger, HttpRequest $req) {
